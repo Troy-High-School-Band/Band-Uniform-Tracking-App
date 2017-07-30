@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 public class ScanActivity extends AppCompatActivity {
 
@@ -16,8 +15,6 @@ public class ScanActivity extends AppCompatActivity {
 
     private Button submit;
 
-    private TextView errorLog;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +22,6 @@ public class ScanActivity extends AppCompatActivity {
 
         manualInput = (EditText) findViewById(R.id.manualInput);
         submit = (Button) findViewById(R.id.submitButton);
-        errorLog = (TextView) findViewById(R.id.errorLog);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

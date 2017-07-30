@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "256742257911",
+    "project_id": "chrome-lambda-175314"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:256742257911:android:34ecef2ec8e2441b",
+        "android_client_info": {
+          "package_name": "com.github.troyhighschoolband.band_uniform_tracking_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "256742257911-o4hnkuufhqmqhvsb6dpcf7jr691g483j.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "256742257911-rn63e6qgpd1aa2846omsltc7tjr2um3g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.github.troyhighschoolband.band_uniform_tracking_app",
+            "certificate_hash": "ad7648dc8ba6017427107afc37a73602b005adb8"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZuJhSlXzEV9clVks68pYRqdQQq_a5rAw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
