@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="itemTypes"><item></item>
+                            <item>Jacket</item>
+                            <item>Pants</item>
+                            <item>Gauntlet</item>
+                            <item>Shako</item></array>
+</resources>

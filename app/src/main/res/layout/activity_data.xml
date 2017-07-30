@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.github.troyhighschoolband.foo.DataActivity">
+    tools:context="com.github.troyhighschoolband.band_uniform_tracking_app.DataActivity">
 
     <TableLayout
         android:layout_width="368dp"
@@ -25,7 +25,7 @@
                 android:text="Barcode Number" />
 
             <EditText
-                android:id="@+id/BarcodeNumber"
+                android:id="@+id/BarcodeNumberInput"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -44,7 +44,7 @@
                 android:text="Name" />
 
             <EditText
-                android:id="@+id/ItemUser"
+                android:id="@+id/ItemUserInput"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -64,12 +64,13 @@
                 android:text="Item Type" />
 
             <EditText
-                android:id="@+id/ItemType"
-                android:layout_width="match_parent"
+                android:id="@+id/ItemTypeInput"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Jacket/Pants/Gauntlet/Baldric"
-                android:inputType="number" />
+                android:hint="Item type"
+                android:inputType="textPersonName" />
+
         </TableRow>
 
         <TableRow
@@ -83,7 +84,7 @@
                 android:text="Item Number" />
 
             <EditText
-                android:id="@+id/ItemNumber"
+                android:id="@+id/ItemNumberInput"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -103,7 +104,7 @@
                 android:text="Item Size" />
 
             <EditText
-                android:id="@+id/ItemSize"
+                android:id="@+id/ItemSizeInput"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
