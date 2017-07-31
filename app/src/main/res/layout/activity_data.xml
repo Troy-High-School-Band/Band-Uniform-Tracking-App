@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="The person's name"
-                android:inputType="number" />
+                android:inputType="text" />
 
         </TableRow>
 
@@ -109,7 +109,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Item Size"
-                android:inputType="number" />
+                android:inputType="text" />
 
         </TableRow>
 

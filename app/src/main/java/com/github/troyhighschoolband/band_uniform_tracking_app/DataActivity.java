@@ -13,15 +13,15 @@ import android.widget.TextView;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.IOException;
 
+import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URI;
 
 import static com.github.troyhighschoolband.Constants.*;
 
@@ -34,9 +34,6 @@ public class DataActivity extends AppCompatActivity {
     private EditText itemType;
     private EditText itemSize;
     private EditText itemNumber;
-
-    private Button backButton;
-    private Button submitButton;
 
     private TextView errorLog;
 
@@ -54,8 +51,8 @@ public class DataActivity extends AppCompatActivity {
             itemType = (EditText) findViewById(R.id.ItemTypeInput);
             itemSize = (EditText) findViewById(R.id.ItemSizeInput);
             itemNumber = (EditText) findViewById(R.id.ItemNumberInput);
-            backButton = (Button) findViewById(R.id.backButton);
-            submitButton = (Button) findViewById(R.id.submitButton);
+            Button backButton = (Button) findViewById(R.id.backButton);
+            Button submitButton = (Button) findViewById(R.id.submitButton);
             errorLog = (TextView) findViewById(R.id.errorLog);
 
             if (bn != -1) {
@@ -73,13 +70,12 @@ public class DataActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     try {
-                        if(!storeData(Long.parseLong(barcodeNumber.getText().toString()),
+                        storeData(Long.parseLong(barcodeNumber.getText().toString()),
                                       name.getText().toString(), itemType.getText().toString(),
                                       Integer.parseInt(itemNumber.getText().toString()),
-                                      itemSize.getText().toString())) {
-                            errorLog.setText("An error occurred storing the data.");
-                        }
-                    } catch (NumberFormatException nfe) {
+                                      itemSize.getText().toString());
+                    }
+                    catch (NumberFormatException nfe) {
                         errorLog.setText("Invalid number format.");
                     }
                 }
@@ -94,14 +90,10 @@ public class DataActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Stores the given data into the database
-     *
-     * @return If storing worked, true. Otherwise, false.
-     */
-    private boolean storeData(long barcodeNumber, String name, String itemType, int itemNumber,
+    private void storeData(long barcodeNumber, String name, String itemType, int itemNumber,
                               String itemSize) {
-        return false;
+        Data data = new Data(barcodeNumber, name, itemType, itemNumber, itemSize);
+        new StoreTask().execute(data);
     }
 
     private void loadData(long barcodeNumber) {
@@ -133,6 +125,91 @@ public class DataActivity extends AppCompatActivity {
             itemType = it;
             itemNumber = in;
             itemSize = is;
+        }
+    }
+
+    private class StoreTask extends AsyncTask<Data, Void, Boolean> {
+        @Override
+        protected void onPreExecute() {
+            errorLog.setText("Storing data...");
+        }
+
+        @Override
+        protected Boolean doInBackground(Data... params) {
+            try {
+                Data data = params[0];
+                long barcodeNumber = data.barcodeNumber;
+                URL url = new URL("https", "sheets.googleapis.com", "/v4/spreadsheets/" +
+                        spreadsheetId + "/values/A3:A?majorDimension=COLUMNS&key=" + apiKey);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.connect();
+                if (conn.getResponseCode() != 200) {
+                    throw new Exception("Unwanted response code: "+conn.getResponseCode());
+                }
+                BufferedReader reader = new BufferedReader(new InputStreamReader(
+                        new BufferedInputStream(conn.getInputStream())));
+                StringBuilder builder = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    builder.append(line);
+                }
+                JSONArray values = (JSONArray) ((JSONObject) parser.parse(builder.toString())
+                ).get("values");
+                Object[] col = ((JSONArray) values.toArray()[0]).toArray();
+                int lineNumber = -1;
+                for (int i = 0; i < col.length; i++) {
+                    if (Long.parseLong((String) col[i]) == barcodeNumber) {
+                        lineNumber = i + 3;
+                    }
+                }
+                if (lineNumber == -1) {
+                    lineNumber = col.length + 3;
+                }
+                JSONObject send = new JSONObject();
+                send.put("range", "'Barcode Scanner'!A"+lineNumber);
+                send.put("majorDimension", "ROWS");
+                JSONArray row = new JSONArray();
+                row.add(String.valueOf(barcodeNumber));
+                row.add(String.valueOf(System.currentTimeMillis()/1000));
+                row.add(data.name);
+                row.add(data.itemType);
+                row.add(String.valueOf(data.itemNumber));
+                row.add(data.itemSize);
+                send.put("values", row);
+                url = new URI("https", "sheets.googleapis.com", "/v4/spreadsheets/" + spreadsheetId +
+                              "/values/'Barcode Scanner'!A" + lineNumber +
+                              "?valueInputOption=USER_ENTERED&key=" + apiKey).toURL();
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestProperty("Authentication", "Basic "+OAuthToken);
+                conn.setRequestMethod("PUT");
+                DataOutputStream put = new DataOutputStream(conn.getOutputStream());
+                put.writeBytes(send.toJSONString());
+                if(conn.getResponseCode()/100 != 2) {
+                    reader = new BufferedReader(new InputStreamReader(
+                            new BufferedInputStream(conn.getErrorStream())));
+                    builder = new StringBuilder();
+                    while ((line = reader.readLine()) != null) {
+                        builder.append(line);
+                    }
+                    throw new Exception(builder.toString() + "\t\t" +
+                                        String.valueOf(conn.getResponseCode()));
+                }
+                return true;
+            }
+            catch(Exception e) {
+                Log.e("buta", "exception", e);
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if(result) {
+                errorLog.setText("Successfully stored");
+            }
+            else {
+                errorLog.setText("An error occurred. Please try again later.");
+            }
         }
     }
 

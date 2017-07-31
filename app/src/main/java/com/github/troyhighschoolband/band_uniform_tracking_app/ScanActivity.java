@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import static com.github.troyhighschoolband.Constants.*;
+
 public class ScanActivity extends AppCompatActivity {
 
     public static final String barcodeNumberName = "barcode_number";
@@ -39,6 +41,10 @@ public class ScanActivity extends AppCompatActivity {
                 }*/
             }
         });
+        while(OAuthToken == null) {
+            Intent intent = new Intent(this, GoogleSignInActivity.class);
+            startActivity(intent);
+        }
     }
 
     private void goToDataActivity(long barcodeNumber) {
