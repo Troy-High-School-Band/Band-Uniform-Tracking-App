@@ -180,7 +180,8 @@ public class DataActivity extends AppCompatActivity {
                               "/values/'Barcode Scanner'!A" + lineNumber +
                               "?valueInputOption=USER_ENTERED&key=" + apiKey).toURL();
                 conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestProperty("Authentication", "Basic "+OAuthToken);
+                conn.setRequestProperty("Authentication", "Basic ");
+
                 conn.setRequestMethod("PUT");
                 DataOutputStream put = new DataOutputStream(conn.getOutputStream());
                 put.writeBytes(send.toJSONString());

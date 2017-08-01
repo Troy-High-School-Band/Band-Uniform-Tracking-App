@@ -50,7 +50,7 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
             if(result.isSuccess()) {
                 GoogleSignInAccount account = result.getSignInAccount();
                 try {
-                    OAuthToken = GoogleAuthUtil.getToken(this, account.getAccount(),
+                    String OAuthToken = GoogleAuthUtil.getToken(this, account.getAccount(),
                                                     "https://www.googleapis.com/auth/spreadsheets");
                     setResult(Activity.RESULT_OK);
                 }
