@@ -176,7 +176,7 @@ public class DataActivity extends AppCompatActivity {
                 row.add(String.valueOf(data.itemNumber));
                 row.add(data.itemSize);
                 send.put("values", row);
-                url = new URI("https", "sheets.googleapis.com", "/v4/spreadsheets/" + spreadsheetId +
+                url = new URI("https", "sheets.googleapis.com", "/v4/spreadsheets/" + spreadsheetId+
                               "/values/'Barcode Scanner'!A" + lineNumber +
                               "?valueInputOption=USER_ENTERED&key=" + apiKey).toURL();
                 conn = (HttpURLConnection) url.openConnection();

@@ -1,5 +1,6 @@
 package com.github.troyhighschoolband.band_uniform_tracking_app;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,8 @@ import android.widget.Toast;
 import com.google.zxing.IntentIntegrator;
 import com.google.zxing.IntentResult;
 
+import static com.github.troyhighschoolband.Constants.*;
+
 public class StarterActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String barcodeNumberName = "barcode_number";
@@ -19,6 +22,8 @@ public class StarterActivity extends AppCompatActivity implements View.OnClickLi
     private Button scanButton, manualButton;
 
     private EditText manualInput;
+
+    private static final int googleSignInCode = 349;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +37,7 @@ public class StarterActivity extends AppCompatActivity implements View.OnClickLi
 
         Intent gsi = new Intent(this, GoogleSignInActivity.class);
         gsi.putExtra("GoogleSignInActivity", "GoogleSignInActivity");
-        startActivityForResult(gsi, 200);
+        startActivityForResult(gsi, googleSignInCode);
     }
 
     public void onClick(View v) {
@@ -44,30 +49,34 @@ public class StarterActivity extends AppCompatActivity implements View.OnClickLi
                 barcodeNumber = Long.parseLong(manualInput.getText().toString());
                 goToDataActivity();
             } else {
-                Toast toast = Toast.makeText(getApplicationContext(), "Invalid Input Setting. TBH I don't know how you got here.", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "Invalid Input Setting. TBH I don't know how you got here.",
+                        Toast.LENGTH_SHORT);
                 toast.show();
             }
         }
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if(intent.getStringExtra("GoogleSignInActivity") == null) {
+        if(requestCode == googleSignInCode) {
+            //Google Sign In
+            if(OAuthToken == null) {
+                Intent gsi = new Intent(this, GoogleSignInActivity.class);
+                gsi.putExtra("GoogleSignInActivity", "GoogleSignInActivity");
+                startActivityForResult(gsi, googleSignInCode);
+            }
+        }
+        else {
             //picture scanning
-            IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+            IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode,
+                    intent);
             if (result != null) {
                 barcodeNumber = Long.parseLong(result.getContents());
                 goToDataActivity();
             } else {
-                Toast toast = Toast.makeText(getApplicationContext(), "No Scan Data Received", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getApplicationContext(), "No Scan Data Received"
+                        + requestCode, Toast.LENGTH_SHORT);
                 toast.show();
-            }
-        }
-        else {
-            //Google Sign In
-            if(requestCode != resultCode) {
-                Intent gsi = new Intent(this, GoogleSignInActivity.class);
-                gsi.putExtra("GoogleSignInActivity", "GoogleSignInActivity");
-                startActivityForResult(gsi, 200);
             }
         }
     }
