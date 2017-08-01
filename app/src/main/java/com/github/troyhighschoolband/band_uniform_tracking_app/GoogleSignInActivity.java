@@ -58,6 +58,9 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
         }
         else {
             Status s = result.getStatus();
+            if(s.hasResolution()) {
+                Log.i("buta: message", "can be resolved");
+            }
             switch(s.getStatusCode()) {
                 case GoogleSignInStatusCodes.SIGN_IN_REQUIRED:
                     Log.i("buta: message", "Sign in required.");

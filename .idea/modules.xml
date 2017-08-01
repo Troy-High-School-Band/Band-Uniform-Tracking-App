@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Band Uniform App.iml" filepath="$PROJECT_DIR$/Band Uniform App.iml" />
       <module fileurl="file://$PROJECT_DIR$/Band-Uniform-Tracking-App.iml" filepath="$PROJECT_DIR$/Band-Uniform-Tracking-App.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
