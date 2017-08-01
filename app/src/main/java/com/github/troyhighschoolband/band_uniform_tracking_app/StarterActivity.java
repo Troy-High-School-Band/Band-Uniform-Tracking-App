@@ -29,6 +29,10 @@ public class StarterActivity extends AppCompatActivity implements View.OnClickLi
         manualButton = (Button) findViewById(R.id.scanButton);
 
         manualInput = (EditText) findViewById(R.id.manualInput);
+
+        Intent gsi = new Intent(this, GoogleSignInActivity.class);
+        gsi.putExtra("GoogleSignInActivity", "GoogleSignInActivity");
+        startActivityForResult(gsi, 200);
     }
 
     public void onClick(View v) {
@@ -47,13 +51,24 @@ public class StarterActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-        if (result != null) {
-            barcodeNumber = Long.parseLong(result.getContents());
-            goToDataActivity();
-        } else {
-            Toast toast = Toast.makeText(getApplicationContext(), "No Scan Data Received", Toast.LENGTH_SHORT);
-            toast.show();
+        if(intent.getStringExtra("GoogleSignInActivity") == null) {
+            //picture scanning
+            IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+            if (result != null) {
+                barcodeNumber = Long.parseLong(result.getContents());
+                goToDataActivity();
+            } else {
+                Toast toast = Toast.makeText(getApplicationContext(), "No Scan Data Received", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        }
+        else {
+            //Google Sign In
+            if(requestCode != resultCode) {
+                Intent gsi = new Intent(this, GoogleSignInActivity.class);
+                gsi.putExtra("GoogleSignInActivity", "GoogleSignInActivity");
+                startActivityForResult(gsi, 200);
+            }
         }
     }
 

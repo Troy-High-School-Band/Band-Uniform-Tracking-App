@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.app.Activity;
 
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
@@ -51,6 +52,7 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
                 try {
                     OAuthToken = GoogleAuthUtil.getToken(this, account.getAccount(),
                                                     "https://www.googleapis.com/auth/spreadsheets");
+                    setResult(Activity.RESULT_OK);
                 }
                 catch (IOException | GoogleAuthException | NullPointerException e) {
                     e.printStackTrace();

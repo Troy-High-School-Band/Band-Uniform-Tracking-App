@@ -44,7 +44,7 @@ public class DataActivity extends AppCompatActivity {
 
         try {
             Intent intent = getIntent();
-            long bn = intent.getLongExtra(ScanActivity.barcodeNumberName, -1);
+            long bn = intent.getLongExtra(StarterActivity.barcodeNumberName, -1);
 
             barcodeNumber = (EditText) findViewById(R.id.BarcodeNumberInput);
             name = (EditText) findViewById(R.id.ItemUserInput);
