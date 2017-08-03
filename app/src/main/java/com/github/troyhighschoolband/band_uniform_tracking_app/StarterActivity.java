@@ -58,15 +58,6 @@ public class StarterActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if(requestCode == googleSignInCode) {
-            //Google Sign In
-            if(OAuthToken == null) {
-                Intent gsi = new Intent(this, GoogleSignInActivity.class);
-                gsi.putExtra("GoogleSignInActivity", "GoogleSignInActivity");
-                startActivityForResult(gsi, googleSignInCode);
-            }
-        }
-        else {
             //picture scanning
             IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode,
                     intent);
@@ -82,7 +73,7 @@ public class StarterActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void goToDataActivity() {
-        Intent intent = new Intent(this, DataActivity.class);
+        Intent intent = new Intent(this, DataSendActivity.class);
         intent.putExtra(barcodeNumberName, barcodeNumber);
         startActivity(intent);
     }

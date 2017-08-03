@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Band-Uniform-Tracking-App</string>
+    <string name="no_connection">No network connection available.</string>
 </resources>
