@@ -34,7 +34,7 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_google_sign_in);
 
-        Toast.makeText(this, OAuthToken, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, OAuthToken, Toast.LENGTH_SHORT).show();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -107,7 +107,7 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
             if (token != null) {
                 setResult(Activity.RESULT_OK);
             }
-            OAuthToken = token;
+            //OAuthToken = token;
             GoogleSignInActivity.this.finish();
         }
     }

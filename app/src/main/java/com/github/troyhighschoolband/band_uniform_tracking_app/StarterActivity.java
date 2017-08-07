@@ -32,12 +32,7 @@ public class StarterActivity extends AppCompatActivity implements View.OnClickLi
 
         scanButton = (Button) findViewById(R.id.manualButton);
         manualButton = (Button) findViewById(R.id.scanButton);
-
         manualInput = (EditText) findViewById(R.id.manualInput);
-
-        Intent gsi = new Intent(this, GoogleSignInActivity.class);
-        gsi.putExtra("GoogleSignInActivity", "GoogleSignInActivity");
-        startActivityForResult(gsi, googleSignInCode);
     }
 
     public void onClick(View v) {
@@ -58,17 +53,13 @@ public class StarterActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-            //picture scanning
-            IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode,
-                    intent);
-            if (result != null) {
-                barcodeNumber = Long.parseLong(result.getContents());
-                goToDataActivity();
-            } else {
-                Toast toast = Toast.makeText(getApplicationContext(), "No Scan Data Received"
-                        + requestCode, Toast.LENGTH_SHORT);
-                toast.show();
-            }
+        //picture scanning
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        if (result != null) {
+            barcodeNumber = Long.parseLong(result.getContents());
+            goToDataActivity();
+        } else {
+            manualInput.setText("No scan daa recieved" + requestCode);
         }
     }
 
